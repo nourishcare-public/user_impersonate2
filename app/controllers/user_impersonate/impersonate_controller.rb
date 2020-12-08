@@ -27,7 +27,7 @@ module UserImpersonate
     # Perform the user impersonate action
     # GET /impersonate/user/123
     def create
-      ActiveRecord::Base.connected_to(role: :writer) do
+      ActiveRecord::Base.connected_to(role: :writing) do
         @user = find_user(params[:user_id])
         impersonate(@user)
         redirect_on_impersonate(@user)
