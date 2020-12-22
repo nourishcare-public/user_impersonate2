@@ -77,9 +77,11 @@ module UserImpersonate
     # stored in +session[:staff_user_id]+
     def revert_impersonate
       return unless current_staff_user
-      sign_out_user current_user
-      sign_in_user current_staff_user
-      session[:staff_user_id] = nil
+      ActiveRecord::Base.connected_to(role: :writing) do
+        sign_out_user current_user
+        sign_in_user current_staff_user
+        session[:staff_user_id] = nil
+      end
     end
 
     def sign_out_user(user)
